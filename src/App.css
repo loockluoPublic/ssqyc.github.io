@@ -50,7 +50,7 @@ h2 {
 
 .boll {
   /* text-align: center; */
-  font-size: 36px;
+  font-size: 32px;
 }
 
 .boll+.boll {
@@ -65,4 +65,8 @@ h2 {
   bottom {
     background-color: cadetblue;
   }
+}
+
+.anticon {
+  cursor: pointer;
 }

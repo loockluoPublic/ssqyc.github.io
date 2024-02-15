@@ -7,6 +7,7 @@ import { nextBolls, predictNextLottery, predictNextLottery2 } from "./next";
 import { Table } from "antd";
 import type { TableProps } from "antd";
 import CountUp from "react-countup";
+import { RedoOutlined } from "@ant-design/icons";
 
 const columns: TableProps<IStore>["columns"] = [
   {
@@ -80,7 +81,16 @@ function App() {
 
   const [next, setNext] = useState<IStore | undefined>();
   const [next2, setNext2] = useState<(IStore & nextBolls) | undefined>();
-  console.log("%c Line:83 🍿 next2", "color:#ea7e5c", next2);
+
+  const [blueRadom, setRadomBlue] = useState<string[] | undefined>([]);
+  const getBlue = () => {
+    setRadomBlue(next2?.getBule?.());
+  };
+
+  const [tailRadom, setRadomTail] = useState<string[] | undefined>([]);
+  const getTail = () => {
+    setRadomTail(next2?.getTail?.());
+  };
 
   const getNext = () => {
     const next = predictNextLottery(list);
@@ -93,7 +103,10 @@ function App() {
         database.getAllLotteryResults().then((res) => {
           const next = predictNextLottery(res);
           setNext(next);
-          setNext2(predictNextLottery2(res));
+          const next2 = predictNextLottery2(res);
+          setNext2(next2);
+          setRadomTail(next2?.getTail?.());
+          setRadomBlue(next2?.getBule?.());
           setList(res);
         });
       });
@@ -167,7 +180,9 @@ function App() {
               })}
             </div>
             <div className="boll">
-              <span>算法预测：</span>
+              <span>
+                算法预测： <RedoOutlined onClick={getNext} />
+              </span>
               {next?.red?.map?.((r, i) => {
                 return (
                   <CountUp
@@ -188,8 +203,37 @@ function App() {
                 />
               )}
             </div>
-            <div className="nextBtn">
-              <button onClick={getNext}>再预测一次</button>
+            <div className="boll">
+              <span>
+                算法尾数： <RedoOutlined onClick={getTail} />
+              </span>
+              {tailRadom?.map?.((r, i) => {
+                return (
+                  <CountUp
+                    className="redBoll"
+                    key={i}
+                    start={0}
+                    end={Number(r)}
+                    duration={2}
+                  />
+                );
+              })}
+            </div>
+            <div className="boll">
+              <span>
+                算法蓝球： <RedoOutlined onClick={getBlue} />
+              </span>
+              {blueRadom?.map?.((r, i) => {
+                return (
+                  <CountUp
+                    className="blueBoll"
+                    key={i}
+                    start={0}
+                    end={Number(r)}
+                    duration={2}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
