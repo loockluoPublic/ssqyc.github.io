@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { getHistory } from "./request";
 import { IStore, database } from "./db";
-import { predictNextLottery, predictNextLottery2 } from "./next";
+import { nextBolls, predictNextLottery, predictNextLottery2 } from "./next";
 import { Table } from "antd";
 import type { TableProps } from "antd";
 import CountUp from "react-countup";
@@ -79,7 +79,7 @@ function App() {
   const [list, setList] = useState<IStore[]>([]);
 
   const [next, setNext] = useState<IStore | undefined>();
-  const [next2, setNext2] = useState<IStore | undefined>();
+  const [next2, setNext2] = useState<(IStore & nextBolls) | undefined>();
   console.log("%c Line:83 🍿 next2", "color:#ea7e5c", next2);
 
   const getNext = () => {

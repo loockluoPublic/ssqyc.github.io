@@ -4,7 +4,7 @@ interface IStore {
   blue: string;
 }
 
-interface nextBolls {
+export interface nextBolls {
   blue6: string[];
   tail: string[];
 }
