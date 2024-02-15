@@ -80,6 +80,7 @@ function App() {
 
   const [next, setNext] = useState<IStore | undefined>();
   const [next2, setNext2] = useState<IStore | undefined>();
+  console.log("%c Line:83 🍿 next2", "color:#ea7e5c", next2);
 
   const getNext = () => {
     const next = predictNextLottery(list);
@@ -116,7 +117,7 @@ function App() {
         <div style={{ flexGrow: "1", padding: "5em" }}>
           <div>
             <div className="boll">
-              <span>方案一：</span>
+              <span>最高概率：</span>
               {next2?.red?.map?.((r, i) => {
                 return (
                   <CountUp
@@ -138,7 +139,35 @@ function App() {
               )}
             </div>
             <div className="boll">
-              <span>方案二：</span>
+              <span>尾数概率：</span>
+              {next2?.tail?.map?.((r, i) => {
+                return (
+                  <CountUp
+                    className="redBoll"
+                    key={i}
+                    start={0}
+                    end={Number(r)}
+                    duration={2}
+                  />
+                );
+              })}
+            </div>
+            <div className="boll">
+              <span>蓝球概率：</span>
+              {next2?.blue6?.map?.((r, i) => {
+                return (
+                  <CountUp
+                    className="blueBoll"
+                    key={i}
+                    start={0}
+                    end={Number(r)}
+                    duration={2}
+                  />
+                );
+              })}
+            </div>
+            <div className="boll">
+              <span>算法预测：</span>
               {next?.red?.map?.((r, i) => {
                 return (
                   <CountUp

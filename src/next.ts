@@ -4,15 +4,24 @@ interface IStore {
   blue: string;
 }
 
-export function predictNextLottery2(d: IStore[]): IStore {
+interface nextBolls {
+  blue6: string[];
+  tail: string[];
+}
+
+export function predictNextLottery2(d: IStore[]): IStore & nextBolls {
   const historyData = [...d];
   const redBallFrequency: { [key: string]: number } = {};
   const blueBallFrequency: { [key: string]: number } = {};
+  const tailFrequency: { [key: string]: number } = {};
   // 统计每个红球的出现频率
   historyData.forEach((periodData) => {
     periodData.red.forEach((redBall) => {
       redBallFrequency[redBall] = (redBallFrequency[redBall] || 0) + 1;
+      tailFrequency[redBall[redBall.length - 1]] =
+        (tailFrequency[redBall[redBall.length - 1]] || 0) + 1;
     });
+
     blueBallFrequency[periodData.blue] =
       (blueBallFrequency[periodData.blue] || 0) + 1;
   });
@@ -22,14 +31,20 @@ export function predictNextLottery2(d: IStore[]): IStore {
     .sort((a, b) => redBallFrequency[b] - redBallFrequency[a])
     .slice(0, 6);
 
+  const tailRedBalls = Object.keys(tailFrequency)
+    .sort((a, b) => tailFrequency[b] - tailFrequency[a])
+    .slice(0, 6);
+
   // 随机选择一个蓝球
-  const likelyBlueBall = Object.keys(blueBallFrequency).sort(
+  const likelyBlueBalls = Object.keys(blueBallFrequency).sort(
     (a, b) => blueBallFrequency[b] - blueBallFrequency[a]
-  )[0];
+  );
 
   return {
     red: likelyRedBalls,
-    blue: likelyBlueBall,
+    blue: likelyBlueBalls[0],
+    blue6: likelyBlueBalls.slice(0, 5),
+    tail: tailRedBalls,
     period: getNextPeriod(historyData),
   };
 }
